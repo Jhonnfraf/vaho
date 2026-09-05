@@ -1,0 +1,24 @@
+# Godot 4.x
+.godot/
+*.exe
+*.exe.console
+build/
+dist/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Imports
+*.import
+
+# User data
+user://
+*.save
+
+# Test
+test_*.gd
