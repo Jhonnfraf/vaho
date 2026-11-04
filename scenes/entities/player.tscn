@@ -8,12 +8,13 @@
 [ext_resource type="Texture2D" uid="uid://d36vhg0q77tj3" path="res://assets/Samurai_Archer/Idle.png" id="6_73kkf"]
 [ext_resource type="Texture2D" uid="uid://svujmbx02di6" path="res://assets/Samurai_Archer/Attack_3.png" id="7_n5sgd"]
 [ext_resource type="Texture2D" uid="uid://xmm6ugrbakh4" path="res://assets/Samurai_Archer/Walk.png" id="8_5ki56"]
+[ext_resource type="Script" uid="uid://cxh8sxlpycibi" path="res://scripts/gestor_runas.gd" id="9_c5rqy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0s3u6"]
 size = Vector2(34, 93)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ucweq"]
-size = Vector2(20, 21.5)
+size = Vector2(45.25, 37)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_saib0"]
 atlas = ExtResource("3_dnykm")
@@ -335,9 +336,10 @@ animations = [{
 "speed": 10.0
 }]
 
-[node name="Personaje" type="CharacterBody2D" unique_id=1666686964]
+[node name="Personaje" type="CharacterBody2D" unique_id=1666686964 groups=["jugador"]]
+collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_0s3u6")
-offset_golpe = 40.0
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=142285057]
 visible = false
@@ -355,7 +357,7 @@ position = Vector2(25, -40)
 scale = Vector2(4, 4)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AreaGolpe" unique_id=191353162]
-position = Vector2(8, 2.75)
+position = Vector2(20.625, 3.25)
 shape = SubResource("RectangleShape2D_ucweq")
 
 [node name="TimerGolpe" type="Timer" parent="AreaGolpe" unique_id=1558939041]
@@ -367,10 +369,16 @@ shape = SubResource("RectangleShape2D_ucweq")
 [node name="TimerHumo" type="Timer" parent="Timers" unique_id=260630452]
 
 [node name="SpritePj" type="AnimatedSprite2D" parent="." unique_id=602558153]
-position = Vector2(12, -69)
+position = Vector2(12, -79)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_2ctvp")
 animation = &"Moverse"
 frame_progress = 0.627969
+
+[node name="GestorRunas" type="Node" parent="." unique_id=192888014]
+script = ExtResource("9_c5rqy")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=897557084]
+offset = Vector2(0, -40)
 
 [connection signal="body_entered" from="AreaGolpe" to="." method="_on_area_golpe_body_entered"]

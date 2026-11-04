@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://c26w3oa1n7kiv"]
+[gd_scene format=3 uid="uid://c26w3oa1n7kiv"]
 
 [ext_resource type="Texture2D" uid="uid://d0ql5qs7u0oxx" path="res://assets/IMPACT AND DASH FREE/ImpactMedium1.png" id="1_udu54"]
 [ext_resource type="Texture2D" uid="uid://17btquylayhp" path="res://assets/FREE ASSETS/SMALL SMOKE.png" id="2_q6k88"]
@@ -37,7 +37,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_nxfpi")
 }],
-"loop": false,
+"loop": 0,
 "name": &"golpe",
 "speed": 15.0
 }]
@@ -76,14 +76,15 @@ animations = [{
 "duration": 2.0,
 "texture": SubResource("AtlasTexture_0fsxu")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Correr",
 "speed": 15.0
 }]
 
-[node name="VFX" type="Node2D"]
+[node name="VFX" type="Node2D" unique_id=1476507939]
 
-[node name="golpe_animacion" type="AnimatedSprite2D" parent="."]
+[node name="golpe_animacion" type="AnimatedSprite2D" parent="." unique_id=909702564]
+visible = false
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_41goc")
 animation = &"golpe"
@@ -91,8 +92,9 @@ frame = 4
 frame_progress = 1.0
 offset = Vector2(0, -20)
 
-[node name="humo_correr" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, 20)
+[node name="humo_correr" type="AnimatedSprite2D" parent="." unique_id=8495791]
+visible = false
+position = Vector2(-50, 20)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_ppb07")
 animation = &"Correr"

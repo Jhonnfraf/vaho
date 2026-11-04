@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://d0vg2xpotlsy8"]
+
+[ext_resource type="Script" uid="uid://kcvypyqpvr3o" path="res://scripts/rune.gd" id="1_ou4tv"]
+[ext_resource type="Texture2D" uid="uid://d1r2m0xofnpag" path="res://assets/free_asset_pixel_runes_byArijkx_v1/asset32x32/1-32x32.png" id="2_ti5gc"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_u0ya7"]
+radius = 17.029387
+
+[node name="Rune" type="CharacterBody2D" unique_id=466942747]
+modulate = Color(1, 1, 1, 0.3529412)
+collision_layer = 8
+collision_mask = 5
+script = ExtResource("1_ou4tv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=508619517]
+shape = SubResource("CircleShape2D_u0ya7")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1703597255]
+texture = ExtResource("2_ti5gc")
+
+[node name="GuideLineSolid" type="Line2D" parent="." unique_id=704911388]
+
+[node name="GuideLineFaded" type="Line2D" parent="." unique_id=388258775]

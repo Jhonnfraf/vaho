@@ -4,41 +4,52 @@ class_name Jugador
 var _facing : bool = true
 var _run_boost: float = 1.0
 
-enum _action{
+enum _action {
+	idle,
+	caminando,
 	corriendo,
 	saltando,
-	atacando,
-	inhalar,
-	exhalar
+	cayendo,
+	atacando_suelo,
+	atacando_aire,
+	inhalando,
+	exhalando
 }
 
+var _estado_actual: _action = _action.idle
+
+#MOVIMIENTO CONFIG
 @export var speed: float = 220.0
 @export var run_multiplier: float = 2.2
 @export var run_ramp_rate : float = 2.2
 @export var jump_velocity: float = -800.0
 @export var jump_cut_multiplier: float = 0.5
 
+#EFECTO DE HUMO CONFIG
 @onready var humo_delay_timer: Timer = $Timers/TimerHumo
 @export var offset_humo : float = 25.0
 
-@export var max_runas: int = 3
-@export var throw_speed: float = 520.0
+#GRAVEDAD
+@export var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
+#@export var gravity: float = 2666.6
 
-#@export var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
-@export var gravity: float = 2666.6
-
+#CONFIG GOLPE
 @export var offset_golpe: float = 20.0
 @onready var area_golpe: Area2D = $AreaGolpe
+@onready var area_golpe_shape: CollisionShape2D = $AreaGolpe/CollisionShape2D
 @onready var timer_golpe: Timer = $AreaGolpe/TimerGolpe
 
 @export var duracion_golpe: float = 0.15
+@export var dano_golpe: float = 10.0
+
+#ONREADY
+@onready var gestor_runas: GestorRunas = $GestorRunas
 
 @onready var golpe_animacion : AnimatedSprite2D = $VFX/golpe_animacion
 @onready var humo_correr : AnimatedSprite2D = $VFX/humo_correr
+@onready var _sprite : AnimatedSprite2D = $SpritePj
 
 func _ready() -> void:
-	var _sprite : AnimatedSprite2D = $SpritePj
-	_sprite.play("Idle")
 	area_golpe.monitoring = false
 	timer_golpe.wait_time = duracion_golpe
 	timer_golpe.one_shot = true
@@ -65,6 +76,7 @@ func _physics_process(delta: float) -> void:
 		_facing = true
 	elif direction < 0:
 		_facing = false
+	area_golpe_shape.position.x = absf(area_golpe_shape.position.x) * (1.0 if _facing else -1.0)
 	
 	#Manejo del salto del personaje
 	if is_on_floor() and Input.is_action_just_pressed("saltar"):
@@ -76,8 +88,18 @@ func _physics_process(delta: float) -> void:
 		
 	#Controlador de golpe de personaje
 	if Input.is_action_just_pressed("golpe"):
+		_estado_actual = _action.atacando_suelo if is_on_floor() else _action.atacando_aire
 		golpe_animacion.visible = true
 		_do_golpe()
+	
+	#Controlador de manejo de Runas
+	if Input.is_action_just_pressed("lanzar_runa"):
+		print(gestor_runas.runas_vailable)
+		gestor_runas.try_throw(self, _facing)
+	if Input.is_action_just_pressed("exhalar"):
+		gestor_runas.try_exhale(self)
+	if Input.is_action_just_pressed("inhalar"):
+		gestor_runas.do_inhale(self)
 	
 	#Controlador de correr
 	var run_target := 1.0
@@ -93,19 +115,62 @@ func _physics_process(delta: float) -> void:
 	if velocity.x != 0.0 and humo_delay_timer.is_stopped() and Input.is_action_pressed("correr"):
 		humo_delay_timer.start()
 	
-	
 	move_and_slide()
+	_determinar_estado()
+	_actualizar_animacion()
+
+func _determinar_estado() -> void:
+	if _estado_actual == _action.atacando_suelo or _estado_actual == _action.atacando_aire:
+		return
+	
+	if _estado_actual == _action.inhalando or _estado_actual == _action.exhalando:
+		return
+	
+	if not is_on_floor():
+		_estado_actual = _action.saltando if velocity.y < 0 else _action.cayendo
+		return
+	
+	if abs(velocity.x) > speed:
+		_estado_actual = _action.corriendo
+	elif velocity.x != 0.0:
+		_estado_actual = _action.caminando
+	else:
+		_estado_actual = _action.idle
+
+func _actualizar_animacion() -> void:
+	match _estado_actual:
+		_action.idle:
+			_sprite.play("Idle")
+		_action.caminando:
+			_sprite.play("Moverse")
+		_action.corriendo:
+			_sprite.play("Correr")
+		_action.saltando:
+			pass
+		_action.cayendo:
+			pass
+		_action.atacando_suelo:
+			_sprite.play("Atacar")
+		_action.atacando_aire:
+			_sprite.play("Atacar")
+		_action.inhalando:
+			_sprite.play("Inhalar")
+		_action.exhalando:
+			_sprite.play("Exhalar")
+			
+	_sprite.flip_h = not _facing
+			
 
 func _play_humo_anim() -> void:
 	humo_correr.visible = true
 	humo_correr.position.x = -offset_humo if _facing else  offset_humo
-	print(humo_correr.animation, " loop=", humo_correr.sprite_frames.get_animation_loop(humo_correr.animation))
 	humo_correr.play()	
 
 func _on_humo_finished() -> void:
 	humo_correr.visible = false
 
 func _do_golpe() -> void:
+	
 	golpe_animacion.position.x = offset_golpe if _facing else -offset_golpe
 	golpe_animacion.flip_h = _facing
 	
@@ -117,8 +182,10 @@ func _on_timer_golpe_timeout() -> void:
 	area_golpe.monitoring = false
 
 func _on_area_golpe_body_entered(body: Node2D) -> void:
-	if body.is_in_group("enemigos"):
+	if body.has_method("recibir_golpe"):
+		body.recibir_golpe(dano_golpe)
 		print("Golpeando a: ", body.name)
 
 func _on_golpe_finished() -> void:
 	golpe_animacion.visible = false
+	_estado_actual = _action.idle
