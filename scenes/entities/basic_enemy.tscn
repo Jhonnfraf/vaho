@@ -265,9 +265,9 @@ frame_progress = 0.5380181
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="VisionArea" unique_id=359215500]
 light_mask = 2
 visibility_layer = 0
-position = Vector2(25.639582, 0)
-scale = Vector2(1.3815738, 1)
-polygon = PackedVector2Array(-12.767745, -0.6666667, 212.33334, -77.333336, 212.33784, 91)
+position = Vector2(8.33334, -0.6666667)
+scale = Vector2(0.68543565, 1)
+polygon = PackedVector2Array(-168.38737, -67.333336, -5.835714, -57.66666, 212.33334, -77.333336, 212.33784, 91, -9.1486845, 7.666667, -168.38737, 62.333336)
 
 [node name="RayoSuelo" type="RayCast2D" parent="." unique_id=455801878]
 position = Vector2(20.666668, 1.3333334)
@@ -278,3 +278,10 @@ target_position = Vector2(0, 40)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AreaAtaque" unique_id=1680424113]
 position = Vector2(20.166668, 0.33333302)
 shape = SubResource("RectangleShape2D_u0ya7")
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_sprite_animation_finished"]
+[connection signal="frame_changed" from="AnimatedSprite2D" to="." method="_on_sprite_frame_changed"]
+[connection signal="body_entered" from="VisionArea" to="." method="_on_vision_body_entered"]
+[connection signal="body_exited" from="VisionArea" to="." method="_on_vision_body_exited"]
+[connection signal="body_entered" from="AreaAtaque" to="." method="_on_ataque_body_entered"]
+[connection signal="body_exited" from="AreaAtaque" to="." method="_on_ataque_body_exited"]

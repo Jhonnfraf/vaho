@@ -1,6 +1,8 @@
 class_name Enemigo
 extends CharacterBody2D
 
+signal murio
+
 @export var vida_maxima : float = 30
 @export var umbral_ataque_medio : float = 700
 @export var umbral_ataque_fuerte : float = 1600
@@ -91,6 +93,7 @@ func _morir() -> void:
 	set_deferred("collision_layer",0)
 	sprite.play("Death")
 	await sprite.animation_finished
+	murio.emit()
 	queue_free()
 
 func _multiplicador(nivel : int) -> float:

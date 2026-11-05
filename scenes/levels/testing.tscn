@@ -1,23 +1,59 @@
 [gd_scene format=3 uid="uid://blptcuvts16ms"]
 
+[ext_resource type="Texture2D" uid="uid://dtm5w5fauhkcu" path="res://assets/2_Enviroment/cyberpunk-street-files/cyberpunk-street-files/Assets/Version 1/PNG/layers/far-buildings.png" id="1_pka5m"]
 [ext_resource type="PackedScene" uid="uid://dm8jp1fjg5o58" path="res://scenes/entities/player.tscn" id="1_whlnt"]
 [ext_resource type="PackedScene" uid="uid://cvldut3rc3ev8" path="res://scenes/entities/wizard_enemy.tscn" id="2_i1vqv"]
+[ext_resource type="Texture2D" uid="uid://bcijcgk1o8gc5" path="res://assets/2_Enviroment/cyberpunk-street-files/cyberpunk-street-files/Assets/Version 1/PNG/layers/back-buildings.png" id="2_u2q58"]
 [ext_resource type="PackedScene" uid="uid://m0qmy06i4kx" path="res://scenes/entities/basic_enemy.tscn" id="3_3mgey"]
+[ext_resource type="Texture2D" uid="uid://cmu6kdy7hk7ph" path="res://assets/2_Enviroment/cyberpunk-street-files/cyberpunk-street-files/Assets/Version 1/PNG/layers/foreground.png" id="3_e062o"]
 [ext_resource type="PackedScene" uid="uid://dmllul1q08r0g" path="res://scenes/entities/shield_enemy.tscn" id="4_x2n3b"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i1vqv"]
-size = Vector2(2527, 38)
+size = Vector2(2307.856, 35)
 
 [node name="Node2D" type="Node2D" unique_id=512805074]
 
+[node name="Parallax2D" type="Parallax2D" parent="." unique_id=588659284]
+scroll_scale = Vector2(0.1, 1)
+repeat_size = Vector2(1280, 0)
+repeat_times = 3
+
+[node name="Sprite2D2" type="Sprite2D" parent="Parallax2D" unique_id=578967598]
+position = Vector2(-2.9999998, 112.99999)
+scale = Vector2(5, 5)
+texture = ExtResource("1_pka5m")
+region_enabled = true
+region_rect = Rect2(0, -350, 256, 1000)
+
+[node name="Parallax2D2" type="Parallax2D" parent="." unique_id=1955745421]
+scroll_scale = Vector2(0.5, 1)
+repeat_size = Vector2(1280, 0)
+repeat_times = 5
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D2" unique_id=203419987]
+position = Vector2(2.9999998, 117.99999)
+scale = Vector2(5, 5)
+texture = ExtResource("2_u2q58")
+
+[node name="Parallax2D3" type="Parallax2D" parent="." unique_id=1053423611]
+scroll_scale = Vector2(1.5, 1)
+repeat_size = Vector2(1280, 0)
+repeat_times = 5
+
+[node name="Sprite2D3" type="Sprite2D" parent="Parallax2D3" unique_id=1717758274]
+position = Vector2(5.9999995, 115.99999)
+scale = Vector2(5, 5)
+texture = ExtResource("3_e062o")
+
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=764509071]
+position = Vector2(0, -250)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=636305567]
-position = Vector2(181.5, 619)
+position = Vector2(510, 616)
 shape = SubResource("RectangleShape2D_i1vqv")
 
 [node name="ColorRect" type="ColorRect" parent="StaticBody2D" unique_id=772768717]
-offset_left = -1079.0
+offset_left = -421.0
 offset_top = 598.0
 offset_right = 1444.0
 offset_bottom = 638.0
@@ -25,10 +61,22 @@ offset_bottom = 638.0
 [node name="StaticBody2D2" type="StaticBody2D" parent="." unique_id=400829590]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2" unique_id=703480375]
-position = Vector2(1491.0001, 221.00002)
+position = Vector2(1468.9987, 329.14044)
 rotation = 1.7715092
 shape = SubResource("RectangleShape2D_i1vqv")
 debug_color = Color(0.333937, 0.62285674, 3.85046e-07, 0.41960785)
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="." unique_id=1014703958]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3" unique_id=1632151297]
+position = Vector2(72.92792, 620.5)
+shape = SubResource("RectangleShape2D_i1vqv")
+
+[node name="ColorRect" type="ColorRect" parent="StaticBody2D3" unique_id=1303972099]
+offset_left = -1079.0
+offset_top = 598.0
+offset_right = 1444.0
+offset_bottom = 638.0
 
 [node name="BasicEnemy" parent="." unique_id=2145325109 instance=ExtResource("3_3mgey")]
 position = Vector2(556, 494)
@@ -40,4 +88,4 @@ position = Vector2(264, 530)
 position = Vector2(862.00006, 510)
 
 [node name="ShieldEnemy" parent="." unique_id=1480000718 instance=ExtResource("4_x2n3b")]
-position = Vector2(-687, 521)
+position = Vector2(-355, 274)

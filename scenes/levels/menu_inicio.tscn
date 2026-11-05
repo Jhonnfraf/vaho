@@ -1,0 +1,72 @@
+[gd_scene format=3 uid="uid://0pfpn38rm5og"]
+
+[ext_resource type="Texture2D" uid="uid://quxrui468h27" path="res://assets/2_Enviroment/cyberpunk-street-files/cyberpunk-street-files/Assets/city skyline/preview.png" id="1_axhqe"]
+[ext_resource type="Script" uid="uid://dldj0tuu8fx42" path="res://scripts/menu_inicio.gd" id="1_ddxdg"]
+[ext_resource type="AudioStream" uid="uid://b7s6u03kho74t" path="res://assets/2_Enviroment/cyberpunk-street-files/cyberpunk-street-files/Assets/music/cyberpunk-street.mp3" id="2_ddxdg"]
+
+[node name="MenuInicio" type="Control" unique_id=2019801801]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ddxdg")
+
+[node name="Fondo" type="TextureRect" parent="." unique_id=739485534]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 647.0
+texture = ExtResource("1_axhqe")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Titulo" type="Label" parent="." unique_id=2056024392]
+layout_mode = 0
+offset_left = -23.0
+offset_right = 1130.0
+offset_bottom = 647.0
+offset_transform_enabled = true
+offset_transform_position = Vector2(500, 200)
+theme_override_font_sizes/font_size = 72
+text = "VAHO"
+
+[node name="Botones" type="VBoxContainer" parent="." unique_id=914359780]
+layout_mode = 0
+offset_left = 389.0
+offset_top = 360.0
+offset_right = 744.0
+offset_bottom = 612.0
+theme_override_constants/separation = 16
+
+[node name="BotonJugar" type="Button" parent="Botones" unique_id=1731078650]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+text = "Jugar
+"
+
+[node name="BotonSalir" type="Button" parent="Botones" unique_id=1345331082]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+text = "Salir"
+
+[node name="Musica" type="AudioStreamPlayer" parent="." unique_id=1952062300]
+stream = ExtResource("2_ddxdg")
+pitch_scale = 0.64
+autoplay = true
+
+[node name="MadeBy" type="Label" parent="." unique_id=1547744948]
+layout_mode = 0
+offset_left = 1042.0
+offset_top = 621.0
+offset_right = 1146.0
+offset_bottom = 644.0
+text = "By: JhonnFraf"
+
+[node name="Version" type="Label" parent="." unique_id=1388020415]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 621.0
+offset_right = 203.0
+offset_bottom = 644.0
+text = "Prototipo Vaho ver: 0.0.1"

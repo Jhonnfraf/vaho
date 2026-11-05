@@ -4,8 +4,10 @@
 [ext_resource type="PackedScene" uid="uid://c26w3oa1n7kiv" path="res://scenes/entities/vfx.tscn" id="2_08t41"]
 [ext_resource type="Texture2D" uid="uid://bed5c0qbqh2al" path="res://assets/Samurai_Archer/Attack_2.png" id="3_dnykm"]
 [ext_resource type="Texture2D" uid="uid://b1ctdouur4vrv" path="res://assets/Samurai_Archer/Run.png" id="4_c5rqy"]
+[ext_resource type="Texture2D" uid="uid://dh6aex2kkhsld" path="res://assets/Samurai_Archer/Dead.png" id="5_73kkf"]
 [ext_resource type="Texture2D" uid="uid://bwyd7sqko66he" path="res://assets/Samurai_Archer/Attack_1.png" id="5_b6tgf"]
 [ext_resource type="Texture2D" uid="uid://d36vhg0q77tj3" path="res://assets/Samurai_Archer/Idle.png" id="6_73kkf"]
+[ext_resource type="Texture2D" uid="uid://bt25u01cjuii2" path="res://assets/Samurai_Archer/Hurt.png" id="7_73kkf"]
 [ext_resource type="Texture2D" uid="uid://svujmbx02di6" path="res://assets/Samurai_Archer/Attack_3.png" id="7_n5sgd"]
 [ext_resource type="Texture2D" uid="uid://xmm6ugrbakh4" path="res://assets/Samurai_Archer/Walk.png" id="8_5ki56"]
 [ext_resource type="Script" uid="uid://cxh8sxlpycibi" path="res://scripts/gestor_runas.gd" id="9_c5rqy"]
@@ -68,6 +70,26 @@ region = Rect2(768, 0, 128, 128)
 atlas = ExtResource("4_c5rqy")
 region = Rect2(896, 0, 128, 128)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_n5sgd"]
+atlas = ExtResource("5_73kkf")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ki56"]
+atlas = ExtResource("5_73kkf")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ctvp"]
+atlas = ExtResource("5_73kkf")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cw7ot"]
+atlas = ExtResource("5_73kkf")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y3bkx"]
+atlas = ExtResource("5_73kkf")
+region = Rect2(512, 0, 128, 128)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_yv3je"]
 atlas = ExtResource("5_b6tgf")
 region = Rect2(0, 0, 128, 128)
@@ -87,6 +109,18 @@ region = Rect2(384, 0, 128, 128)
 [sub_resource type="AtlasTexture" id="AtlasTexture_u2s01"]
 atlas = ExtResource("5_b6tgf")
 region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0pwya"]
+atlas = ExtResource("7_73kkf")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kvgni"]
+atlas = ExtResource("7_73kkf")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_28nan"]
+atlas = ExtResource("7_73kkf")
+region = Rect2(256, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tb0mf"]
 atlas = ExtResource("6_73kkf")
@@ -233,6 +267,26 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_n5sgd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ki56")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2ctvp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cw7ot")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y3bkx")
+}],
+"loop": 0,
+"name": &"Death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_yv3je")
 }, {
 "duration": 1.0,
@@ -250,6 +304,20 @@ animations = [{
 "loop": 0,
 "name": &"Exhalar",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0pwya")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kvgni")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_28nan")
+}],
+"loop": 0,
+"name": &"Hit",
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -337,7 +405,7 @@ animations = [{
 }]
 
 [node name="Personaje" type="CharacterBody2D" unique_id=1666686964 groups=["jugador"]]
-collision_layer = 2
+collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_0s3u6")
 
@@ -372,13 +440,13 @@ shape = SubResource("RectangleShape2D_ucweq")
 position = Vector2(12, -79)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_2ctvp")
-animation = &"Moverse"
-frame_progress = 0.627969
+animation = &"Hit"
 
 [node name="GestorRunas" type="Node" parent="." unique_id=192888014]
 script = ExtResource("9_c5rqy")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=897557084]
 offset = Vector2(0, -40)
+position_smoothing_enabled = true
 
 [connection signal="body_entered" from="AreaGolpe" to="." method="_on_area_golpe_body_entered"]

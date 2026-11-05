@@ -238,15 +238,6 @@ position = Vector2(-9.666666, -4.6666675)
 scale = Vector2(0.054166675, 0.054166675)
 texture = ExtResource("7_h0fkk")
 
-[node name="VisionArea" type="Area2D" parent="." unique_id=1078241291]
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="VisionArea" unique_id=1715843102]
-light_mask = 2
-visibility_layer = 0
-position = Vector2(25.639582, 0)
-scale = Vector2(1.3815738, 1)
-polygon = PackedVector2Array(-12.767745, -0.6666667, 212.33334, -77.333336, 212.33784, 91)
-
 [node name="RayoSuelo" type="RayCast2D" parent="." unique_id=149236367]
 position = Vector2(20.666668, 1.3333334)
 target_position = Vector2(0, 40)
@@ -256,3 +247,12 @@ target_position = Vector2(0, 40)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AreaAtaque" unique_id=1257620885]
 position = Vector2(20.166668, 0.33333302)
 shape = SubResource("RectangleShape2D_7eqh6")
+
+[node name="VisionArea" type="Area2D" parent="." unique_id=638252213]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="VisionArea" unique_id=746811540]
+light_mask = 2
+visibility_layer = 0
+position = Vector2(8.33334, -0.6666667)
+scale = Vector2(0.68543565, 1)
+polygon = PackedVector2Array(-300.0525, -112.666664, -16.534506, -116.99999, 378.8345, -146.33331, 380.29343, 137.66666, -8.753567, 25.999998, -298.59357, 98.66666)

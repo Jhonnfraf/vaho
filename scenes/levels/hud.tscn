@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://cis0bsg2wfsyh"]
+
+[ext_resource type="Script" uid="uid://bd6spkis0bqbg" path="res://scripts/hud.gd" id="1_icbpb"]
+[ext_resource type="Texture2D" uid="uid://2v0vtixdtg72" path="res://assets/free_asset_pixel_runes_byArijkx_v1/icons160x160/1.png" id="2_16vcj"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u0ya7"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dtglo"]
+bg_color = Color(1, 0, 0, 1)
+
+[node name="Hud" type="CanvasLayer" unique_id=1638561459]
+layer = 10
+script = ExtResource("1_icbpb")
+
+[node name="PanelIzq" type="VBoxContainer" parent="." unique_id=509419670]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 56.0
+offset_bottom = 70.0
+theme_override_constants/separation = 8
+
+[node name="BarraVida" type="ProgressBar" parent="PanelIzq" unique_id=54742548]
+custom_minimum_size = Vector2(220, 24)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_u0ya7")
+theme_override_styles/fill = SubResource("StyleBoxFlat_dtglo")
+show_percentage = false
+
+[node name="Runa" type="HBoxContainer" parent="PanelIzq" unique_id=727585075]
+layout_mode = 2
+
+[node name="Icono" type="TextureRect" parent="PanelIzq/Runa" unique_id=1763144655]
+custom_minimum_size = Vector2(100, 100)
+custom_maximum_size = Vector2(150, 150)
+layout_mode = 2
+texture = ExtResource("2_16vcj")
+expand_mode = 1
+
+[node name="EtiquetaRunas" type="Label" parent="PanelIzq/Runa" unique_id=847177778]
+layout_mode = 2
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 24
+
+[node name="Objetivo" type="Label" parent="." unique_id=558534160]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 34.0
+grow_horizontal = 2
+offset_transform_enabled = true
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 1

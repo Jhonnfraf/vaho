@@ -4,6 +4,9 @@ class_name Jugador
 var _facing : bool = true
 var _run_boost: float = 1.0
 
+signal murio
+signal vida_cambiada(vida: int, maximo: int)
+
 enum _action {
 	idle,
 	caminando,
@@ -13,10 +16,21 @@ enum _action {
 	atacando_suelo,
 	atacando_aire,
 	inhalando,
-	exhalando
+	exhalando,
+	herido,
+	muriendo
 }
 
 var _estado_actual: _action = _action.idle
+
+#Vida
+@export var vida_max: int = 10
+var _vida: int
+var _muerto := false
+@export var duracion_hit: float = 0.3
+@export var invulnerabilidad: float = 0.8
+var _hit_timer := 0.0
+var _invulnerable_timer := 0.0
 
 #MOVIMIENTO CONFIG
 @export var speed: float = 220.0
@@ -50,6 +64,7 @@ var _estado_actual: _action = _action.idle
 @onready var _sprite : AnimatedSprite2D = $SpritePj
 
 func _ready() -> void:
+	_vida = vida_max
 	area_golpe.monitoring = false
 	timer_golpe.wait_time = duracion_golpe
 	timer_golpe.one_shot = true
@@ -64,7 +79,71 @@ func _ready() -> void:
 	golpe_animacion.visible = false
 	golpe_animacion.animation_finished.connect(_on_golpe_finished)
 
+#FUnciones para controlar si el personaje esta vivo
+#Recibe dano o muere
+func recibir_dano(cantidad: int) -> void:
+	if _muerto or _invulnerable_timer > 0.0:
+		return
+	_vida = maxi(_vida - cantidad, 0)
+	vida_cambiada.emit(_vida, vida_max)
+	if _vida == 0:
+		_morir()
+		return
+	_entrar_hit()
+
+func _entrar_hit() -> void:
+	_estado_actual = _action.herido
+	_hit_timer = duracion_hit
+	_invulnerable_timer = invulnerabilidad
+	area_golpe.set_deferred("monitoring", false)
+	timer_golpe.stop()
+	golpe_animacion.visible = false
+	humo_correr.visible = false
+	_sprite.play("Hit")
+
+func esta_vivo() -> bool:
+	return not _muerto
+
+func _morir() -> void:
+	_muerto = true
+	_estado_actual = _action.muriendo
+	velocity.x = 0.0
+	area_golpe.set_deferred("monitoring", false)
+	golpe_animacion.visible = false
+	humo_correr.visible = false
+	murio.emit()
+	_sprite.play("Death")
+	await get_tree().create_timer(1.5).timeout
+	get_tree().reload_current_scene()
+
+func matar() -> void:
+	if _muerto:
+		return
+	_vida = 0
+	vida_cambiada.emit(_vida, vida_max)
+	_morir()
+
 func _physics_process(delta: float) -> void:
+	if _estado_actual == _action.muriendo:
+		if not is_on_floor():
+			velocity.y += delta * gravity
+		velocity.x = 0.0
+		move_and_slide()
+		return
+		
+	if _invulnerable_timer > 0.0:
+		_invulnerable_timer -= delta
+
+	if _estado_actual == _action.herido:
+		_hit_timer -= delta
+		if _hit_timer <= 0.0:
+			_estado_actual = _action.idle
+		else:
+			if not is_on_floor():
+				velocity.y += delta * gravity
+			velocity.x = 0.0
+			move_and_slide()
+			return
 	#Controlar velocidad de cada salto
 	if not is_on_floor():
 		velocity.y += delta * gravity
@@ -188,4 +267,5 @@ func _on_area_golpe_body_entered(body: Node2D) -> void:
 
 func _on_golpe_finished() -> void:
 	golpe_animacion.visible = false
-	_estado_actual = _action.idle
+	if _estado_actual == _action.atacando_suelo or _estado_actual == _action.atacando_aire:
+		_estado_actual = _action.idle
